@@ -31,32 +31,38 @@
         </fieldset>
         <div class="mb-3">
           <div class="mb-3">
-            <input type="email" class="form-control is-invalid text-center" id="exampleFormControlInput1"
+            <input type="number" class="form-control is-invalid text-center" id="exampleFormControlInput1"
               placeholder="25">
             <label for="exampleFormControlInput1" class="form-label">kg</label>
             <div class="invalid-feedback">
-              Please enter a valid weight load.
+              Invalid Weight Load
             </div>
           </div>
 
           <div class="col settings-group text-right">
 
-            <button data-toggle="collapse" data-target="#collapsedSettings" class="btn btn-primary"
+            <button data-toggle="collapse" data-target="#collapsedSettings" class="mb-3 btn btn-primary"
               id="more-settings-btn">more settings button</button>
 
             <div class="collapse" id="collapsedSettings">
-              <h4>Unit</h4>
-              <div class="btn-group btn-toggle">
-                <button class="btn btn-default">kg</button>
-                <button class="btn btn-primary active">lb</button>
+              <div class="row mb-3 justify-content-end">
+                <div class="col-6">
+                  <span class="">Unit</span>
+                  <div class="btn-group btn-toggle">
+                    <button class="btn btn-default">kg</button>
+                    <button class="btn btn-primary active">lb</button>
+                  </div>
+                </div>
               </div>
 
-              <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Barbell Weight</label>
-                <input type="email" class="form-control is-invalid text-center" id="exampleFormControlInput1"
-                  placeholder="25">
-                <div class="invalid-feedback">
-                  Please enter a valid weight load.
+              <div class="mb-3 row justify-content-end">
+                <div class="col-12">
+                  <label for="exampleFormControlInput1" class="form-label">Barbell Weight</label>
+                  <input type="number" class="form-control is-invalid text-center" id="exampleFormControlInput1"
+                    placeholder="25">
+                  <div class="invalid-feedback">
+                    Invalid Weight Load
+                  </div>
                 </div>
               </div>
             </div>
@@ -68,9 +74,9 @@
     <div class="plate-count-section container">
       <div class="row">
         <!-- add RFS here someway some how -->
-        <h2 class="col">Weight (kg)</h2>
-        <h2 class="col">Per Side</h2>
-        <h2 class="col">Include?</h2>
+        <h3 class="col">Weight (kg)</h3>
+        <h3 class="col">Per Side</h3>
+        <h3 class="col">Include?</h3>
       </div>
   </main>
   </div>
