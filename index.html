@@ -18,11 +18,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
-  <title>Document</title>
+  <title>Weight to Plate v2</title>
 </head>
 
 <body class="container-fluid">
-  <h1 class="text-center">Weight to Plate</h1>
+  <h1 class="text-center pt-5">Weight to Plate</h1>
   <main>
     <div class="inputs-section">
       <form action="???" class="">
@@ -30,11 +30,10 @@
           <legend class="text-center">Target Weight Load</legend>
         </fieldset>
         <div class="mb-3">
-          <div class="mb-3">
-            <input type="number" class="form-control is-invalid text-center" id="exampleFormControlInput1"
-              placeholder="25">
-            <label for="exampleFormControlInput1" class="form-label">kg</label>
-            <div class="invalid-feedback">
+          <div class="mb-3 text-center">
+            <input type="number" id="main-weight" class="py-3 form-control is-invalid text-center"
+              id="exampleFormControlInput1" placeholder="kg">
+            <div class="invalid-feedback text-center">
               Invalid Weight Load
             </div>
           </div>
@@ -42,15 +41,15 @@
           <div class="col settings-group text-right">
 
             <button data-toggle="collapse" data-target="#collapsedSettings" class="mb-3 btn btn-primary"
-              id="more-settings-btn">more settings button</button>
+              id="more-settings-btn">...</button>
 
             <div class="collapse" id="collapsedSettings">
               <div class="row mb-3 justify-content-end">
                 <div class="col-6">
                   <span class="">Unit</span>
-                  <div class="btn-group btn-toggle">
-                    <button class="btn btn-default">kg</button>
-                    <button class="btn btn-primary active">lb</button>
+                  <div class="btn-group btn-toggle ml-3">
+                    <button class="btn btn-primary active">kg</button>
+                    <button class="btn btn-default">lb</button>
                   </div>
                 </div>
               </div>
@@ -58,7 +57,7 @@
               <div class="mb-3 row justify-content-end">
                 <div class="col-12">
                   <label for="exampleFormControlInput1" class="form-label">Barbell Weight</label>
-                  <input type="number" class="form-control is-invalid text-center" id="exampleFormControlInput1"
+                  <input type="number" class="form-control is-invalid text-center ml-3" id="exampleFormControlInput1"
                     placeholder="25">
                   <div class="invalid-feedback">
                     Invalid Weight Load
@@ -71,13 +70,28 @@
         </div>
       </form>
     </div>
-    <div class="plate-count-section container">
-      <div class="row">
+
+    <div class="plate-count-section container-fluid" id="plate-count-section">
+
+      <div class="row mb-3 text-center">
         <!-- add RFS here someway some how -->
-        <h3 class="col">Weight (kg)</h3>
-        <h3 class="col">Per Side</h3>
-        <h3 class="col">Include?</h3>
+        <p class="col-3">Weight (kg)</p>
+        <p class="col-6">Per Side</p>
+        <p class="col-3">Include?</p>
       </div>
+
+      <!-- <div class="row mb-3 text-center">
+        <p class="col-3">25</p>
+        <div class="col-6">
+          <button class="btn btn-primary">-</button>
+          <span>2</span>
+          <button class="btn btn-primary">+</button>
+        </div>
+        <div class="col-3">
+          <input type="checkbox" class="form-control">
+        </div>
+      </div> -->
+
   </main>
   </div>
 
