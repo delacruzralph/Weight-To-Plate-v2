@@ -35,12 +35,22 @@ class Model {
   constructor(totalWeight, barbellWeight) {
     this.totalWeight = totalWeight;
     this.barbellWeight = barbellWeight;
-    const initWeights = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
-    this.plates = this.generatePlates(initWeights);
+    // this.weights = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
+    this.weights = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
+    this.plates = this.generatePlates(this.weights);
+  }
+
+  roundToNumNearestD(num, d) {
+    return Math.round(num / d) * d;
   }
 
   getPlates() {
     return this.plates;
+  }
+
+  setDefaultBarbellWeight() {
+    this.barbellWeight = this.weights[0];
+    this.plates = this.generatePlates(this.weights);
   }
 
   getBarbellWeight() {
@@ -52,13 +62,14 @@ class Model {
   }
 
   generatePlates(weights) {
-    console.log(weights)
+    // console.log(weights)
     return weights.map(num => {
       return new Plate(num, 0, true);
     });
   }
 
   setWeightsSelected(weights) {
+    this.weights = weights;
     this.plates = this.generatePlates(weights);
   }
 
@@ -69,6 +80,9 @@ class Model {
 
   setBarbellWeight(weight) {
     this.barbellWeight = weight;
+    console.log(weight);
+    this.calculatePlates();
+    // this.calcNewTargetWeight();
   }
 
   calculatePlates() {
@@ -76,7 +90,6 @@ class Model {
     this.plates.forEach(plate => {
       plate['perSide'] = plate['included'] == true ? Math.floor(remainingWeight / plate['weight'] / 2) : 0;
       remainingWeight -= plate['weight'] * plate['perSide'] * 2;
-      console.log(remainingWeight);
     })
 
     // remainingWeight = remainingWeight / 2;
@@ -107,9 +120,9 @@ class Model {
   }
 
   toggleIncluded(index) {
-    console.log(this.plates[index]);
+    // console.log(this.plates[index]);
     this.plates[index]['included'] = !this.plates[index]['included'];
-    console.log(this.plates[index]);
+    // console.log(this.plates[index]);
   }
 
   calcNewTargetWeight() {
@@ -128,6 +141,7 @@ class Controller {
     this.model = model;
     this.view = view;
     this.platesData = this.model.getPlates();
+    this.defaultBarbellWeight = this.model.gete
   }
 
   renderRows() {
@@ -152,11 +166,19 @@ class Controller {
     this.renderRows();
   }
 
+  roundToNearest(num, d) {
+    return Math.round(num / d) * d;
+  }
+
   toggleUnit(unit) {
+    const textbox = document.getElementById("main-weight");
+    // console.log(textbox);
+    // console.log(unit);
     const unitSelected = unit[0].textContent;
     let convertedWeight;
     let weightsSelected;
     let barbellWeight;
+    let roundToNearest;
 
     // Switched to lb 
     if (unitSelected == "lb") {
@@ -164,7 +186,7 @@ class Controller {
       barbellWeight = 45;
       convertedWeight = this.model.getTotalWeight() * kgToLb;
       weightsSelected = [45, 35, 25, 10, 5, 2.5];
-      console.log('kgToLb');
+      // console.log('kgToLb');
     }
     // Switched to kg
     else if (unitSelected == "kg") {
@@ -172,14 +194,16 @@ class Controller {
       barbellWeight = 25;
       convertedWeight = this.model.getTotalWeight() * lbToKg;
       weightsSelected = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
-      console.log('lbToKg');
-
+      // console.log('lbToKg');
     }
+    roundToNearest = weightsSelected[weightsSelected.length - 1];
+
     this.model.setTotalWeight(convertedWeight);
     this.model.setWeightsSelected(weightsSelected);
     this.model.setBarbellWeight(barbellWeight);
     this.model.calculatePlates();
-    this.view.renderTargetWeight(convertedWeight);
+    this.view.renderTargetPlaceholder(unitSelected);
+    this.view.renderTargetWeight(this.model.roundToNumNearestD(convertedWeight, roundToNearest));
     this.view.renderBarbellWeight(barbellWeight);
     this.platesData = this.model.getPlates();
     this.renderRows();
@@ -189,17 +213,39 @@ class Controller {
     this.model.setTotalWeight(e.target.value);
     this.renderRows(this.platesData);
   }
+
+  handleBarbellInput(e) {
+    if (e.target.value == "") {
+      console.log("default");
+      this.model.setDefaultBarbellWeight();
+      console.log(this.model.getPlates());
+      // this.renderRows(this.model.getPlates());
+    }
+    else {
+      this.model.setBarbellWeight(e.target.value);
+    }
+    // console.log(this.model.getPlates());
+    this.renderRows(this.platesData);
+  }
+
+
 }
 
 class View {
   constructor() {
-    console.log(document.querySelector("#main-weight").value);
-    this.targetWeight = document.querySelector("#main-weight");
+    this.targetWeightUnit = document.querySelector("#unit");
+    this.targetWeight = document.querySelector("#main-weight")
+    // console.log(this.targetWeight.innerText);
     this.container = document.querySelector(".plate-count-section");
     this.barbellWeight = document.querySelector("#exampleFormControlInput1");
   }
 
+  renderTargetPlaceholder(unit) {
+    this.targetWeightUnit.innerText = unit;
+  }
+
   renderBarbellWeight(barbellWeight) {
+    console.log(this.barbellWeight.value);
     this.barbellWeight.placeholder = barbellWeight;
   }
 
@@ -273,8 +319,6 @@ $(function () {
     $(this).find('.btn').toggleClass('btn-default');
 
     let unit = $(this).find('.active');
-    console.log(unit);
-    console.log(unit[0].textContent);
     controller.toggleUnit(unit);
   });
 
@@ -285,8 +329,13 @@ $(function () {
 
   // Target Weight Load
   document.querySelector('#main-weight').addEventListener('input', function (e) {
+    e.preventDefault();
     controller.handleMainWeightInput(e);
-    console.log(e.target.value);
+  });
+
+  document.querySelector('#exampleFormControlInput1').addEventListener('input', function (e) {
+    e.preventDefault();
+    controller.handleBarbellInput(e);
   });
 
 });
@@ -297,10 +346,8 @@ document.getElementById('plate-count-section').addEventListener('click', (event)
   const index = target.closest('.row').dataset.index;
   if (target.tagName === 'BUTTON') {
     if (target.textContent === '-') {
-      console.log('minus')
       controller.decreaseRowPerSide(index);
     } else if (target.textContent === '+') {
-      console.log('plus')
       controller.increaseRowPerSide(index);
     }
   } else if (target.tagName === 'INPUT') {
@@ -312,8 +359,8 @@ document.getElementById('plate-count-section').addEventListener('click', (event)
 const modelKg = new Model(25, 25);
 // const modelKg = new Model(25, 25, [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25]);
 // console.log(modelKg.getPlates());
-console.log(modelKg.getBarbellWeight());
-console.log(modelKg.getTotalWeight());
+// console.log(modelKg.getBarbellWeight());
+// console.log(modelKg.getTotalWeight());
 modelKg.calculatePlates();
 
 // const modelLb = new Model(135, 45, [45, 35, 25, 10, 5, 2.5]);
