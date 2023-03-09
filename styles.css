@@ -60,7 +60,8 @@ input {
   width: 25px;
   height: 25px;
   border-radius: 25px;
-  background-color: white;
+  border-width:3px;
+  background-color: none;
   line-height: 0px;
   /* same as the height */
 }
