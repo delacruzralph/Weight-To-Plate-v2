@@ -1,8 +1,70 @@
-.form-control, .form-label, label, input {
+:root {
+  --dark-color: #000638;
+  --medium-color: #72758F;
+  --light-color: #DCDEEB;
+  --font-size: 1.1rem;
+}
+
+body {
+  background-color: var(--light-color);
+  font-size: var(--font-size);
+}
+
+.form-control,
+.form-label,
+label,
+input {
   display: inline !important;
   width: 25%;
 }
 
+.form-check-input {
+  margin: 5px -5px;
+  scale: 2;
+  accent-color: var(--medium-color);
+}
+
 #main-weight {
   width: 90%;
+  border-color: var(--dark-color);
+  border-width: 0.25rem;
+  border-radius: .75rem;
+}
+
+.dark-bg-color {
+  background-color: var(--dark-color);
+}
+
+.medium-bg-color {
+  background-color: var(--medium-color);
+}
+
+.light-bg-color {
+  background-color: var(--light-color);
+}
+
+.dark-text-color {
+  color: var(--dark-color);
+}
+
+.medium-text-color {
+  color: var(--medium-color);
+}
+
+.light-text-color {
+  color: var(--light-color);
+}
+
+.circle-btn {
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 25px;
+  background-color: white;
+  line-height: 0px;
+  /* same as the height */
+}
+
+button:active {
+  background-color: var(--dark-color);
 }

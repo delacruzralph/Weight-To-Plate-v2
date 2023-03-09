@@ -1,8 +1,3 @@
-// Increment + Decrement 
-// create IView and views for kg and lb
-// controller last
-// event handlers section
-
 class Plate {
   constructor(weight, perSide, included) {
     this.weight = weight;
@@ -35,7 +30,6 @@ class Model {
   constructor(totalWeight, barbellWeight) {
     this.totalWeight = totalWeight;
     this.barbellWeight = barbellWeight;
-    // this.weights = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
     this.weights = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
     this.plates = this.generatePlates(this.weights);
   }
@@ -51,6 +45,7 @@ class Model {
   setDefaultBarbellWeight() {
     this.barbellWeight = this.weights[0];
     this.plates = this.generatePlates(this.weights);
+    this.calculatePlates();
   }
 
   getBarbellWeight() {
@@ -62,7 +57,6 @@ class Model {
   }
 
   generatePlates(weights) {
-    // console.log(weights)
     return weights.map(num => {
       return new Plate(num, 0, true);
     });
@@ -80,33 +74,16 @@ class Model {
 
   setBarbellWeight(weight) {
     this.barbellWeight = weight;
-    console.log(weight);
     this.calculatePlates();
-    // this.calcNewTargetWeight();
   }
 
   calculatePlates() {
+    console.log(this.totalWeight);
     let remainingWeight = this.totalWeight - this.barbellWeight;
     this.plates.forEach(plate => {
       plate['perSide'] = plate['included'] == true ? Math.floor(remainingWeight / plate['weight'] / 2) : 0;
       remainingWeight -= plate['weight'] * plate['perSide'] * 2;
     })
-
-    // remainingWeight = remainingWeight / 2;
-    // this.plates.forEach(plate => {
-    //   plate['perSide'] = 0;
-    //   if (plate['included'] == true) {
-    //     console.log(remainingWeight);
-
-    //     while (remainingWeight - (plate['weight'] * (plate['perSide'] + 1)) >= 0) {
-    //       plate['perSide'] += 1
-    //       remainingWeight -= (plate['weight'] * plate['perSide']);
-    //       console.log(remainingWeight);
-    //     }
-    //   } else {
-    //     plate['perSide'] = 0;
-    //   }
-    // })
   }
 
   increaseRowPerSide(index) {
@@ -120,9 +97,7 @@ class Model {
   }
 
   toggleIncluded(index) {
-    // console.log(this.plates[index]);
     this.plates[index]['included'] = !this.plates[index]['included'];
-    // console.log(this.plates[index]);
   }
 
   calcNewTargetWeight() {
@@ -141,7 +116,7 @@ class Controller {
     this.model = model;
     this.view = view;
     this.platesData = this.model.getPlates();
-    this.defaultBarbellWeight = this.model.gete
+    this.defaultBarbellWeight = this.model.get
   }
 
   renderRows() {
@@ -172,8 +147,6 @@ class Controller {
 
   toggleUnit(unit) {
     const textbox = document.getElementById("main-weight");
-    // console.log(textbox);
-    // console.log(unit);
     const unitSelected = unit[0].textContent;
     let convertedWeight;
     let weightsSelected;
@@ -186,7 +159,6 @@ class Controller {
       barbellWeight = 45;
       convertedWeight = this.model.getTotalWeight() * kgToLb;
       weightsSelected = [45, 35, 25, 10, 5, 2.5];
-      // console.log('kgToLb');
     }
     // Switched to kg
     else if (unitSelected == "kg") {
@@ -194,7 +166,6 @@ class Controller {
       barbellWeight = 25;
       convertedWeight = this.model.getTotalWeight() * lbToKg;
       weightsSelected = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
-      // console.log('lbToKg');
     }
     roundToNearest = weightsSelected[weightsSelected.length - 1];
 
@@ -216,15 +187,14 @@ class Controller {
 
   handleBarbellInput(e) {
     if (e.target.value == "") {
-      console.log("default");
       this.model.setDefaultBarbellWeight();
-      console.log(this.model.getPlates());
-      // this.renderRows(this.model.getPlates());
+      this.model.getPlates();
+
     }
     else {
       this.model.setBarbellWeight(e.target.value);
     }
-    // console.log(this.model.getPlates());
+    this.platesData = this.model.getPlates();
     this.renderRows(this.platesData);
   }
 
@@ -235,7 +205,6 @@ class View {
   constructor() {
     this.targetWeightUnit = document.querySelector("#unit");
     this.targetWeight = document.querySelector("#main-weight")
-    // console.log(this.targetWeight.innerText);
     this.container = document.querySelector(".plate-count-section");
     this.barbellWeight = document.querySelector("#exampleFormControlInput1");
   }
@@ -262,7 +231,7 @@ class View {
 
   renderRow(plateData, index) {
     const row = document.createElement('div');
-    row.classList.add('row', 'mb-4', 'text-center', 'd-flex', 'align-items-center');
+    row.classList.add('row', 'mb-4', 'text-center', 'd-flex', 'align-items-top');
     row.dataset.index = index;
 
     const valueColumn = document.createElement('span');
@@ -274,17 +243,17 @@ class View {
     inputColumn.classList.add('col-6');
 
     const minusButton = document.createElement('button');
-    minusButton.classList.add('btn', 'btn-primary');
+    minusButton.classList.add('btn', 'btn-outline-secondary', 'font-weight-bold','circle-btn');
     minusButton.textContent = '-';
     inputColumn.appendChild(minusButton);
 
     const valueSpan = document.createElement('span');
     valueSpan.textContent = plateData['perSide'];
-    valueSpan.classList.add('mx-3');
+    valueSpan.classList.add('mx-3', 'medium-bg-color', 'text-light', 'p-2', 'rounded', 'font-weight-bold');
     inputColumn.appendChild(valueSpan);
 
     const plusButton = document.createElement('button');
-    plusButton.classList.add('btn', 'btn-primary');
+    plusButton.classList.add('btn', 'btn-outline-secondary', 'font-weight-bold','circle-btn');
     plusButton.textContent = '+';
     inputColumn.appendChild(plusButton);
 
@@ -295,7 +264,7 @@ class View {
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.classList.add('form-control');
+    checkbox.classList.add('form-control', 'form-check-input');
     checkbox.checked = plateData['included'];
     checkboxColumn.appendChild(checkbox);
 
@@ -312,8 +281,8 @@ $(function () {
     event.preventDefault();
     $(this).find('.btn').toggleClass('active');
 
-    if ($(this).find('.btn-primary').length > 0) {
-      $(this).find('.btn').toggleClass('btn-primary');
+    if ($(this).find('.btn-secondary').length > 0) {
+      $(this).find('.btn').toggleClass('btn-secondary');
     }
 
     $(this).find('.btn').toggleClass('btn-default');
