@@ -129,13 +129,15 @@ class Controller {
 
   decreaseRowPerSide(index) {
     this.model.decreaseRowPerSide(index);
-    this.view.renderRows(this.platesData);
+    this.renderRows();
+    this.renderPlates();
     this.view.renderTargetWeight(this.model.getTotalWeight());
   }
 
   increaseRowPerSide(index) {
     this.model.increaseRowPerSide(index);
-    this.view.renderRows(this.platesData);
+    this.renderRows();
+    this.renderPlates();
     this.view.renderTargetWeight(this.model.getTotalWeight());
   }
 
@@ -143,6 +145,7 @@ class Controller {
     this.model.toggleIncluded(index);
     this.model.calculatePlates();
     this.renderRows();
+    this.renderPlates();
   }
 
   roundToNearest(num, d) {
@@ -182,11 +185,13 @@ class Controller {
     this.view.renderBarbellWeight(barbellWeight);
     this.platesData = this.model.getPlates();
     this.renderRows();
+    this.renderPlates();
   }
 
   handleMainWeightInput(e) {
     this.model.setTotalWeight(e.target.value);
-    this.renderRows(this.platesData);
+    this.renderRows();
+    this.renderPlates();
   }
 
   handleBarbellInput(e) {
@@ -199,7 +204,8 @@ class Controller {
       this.model.setBarbellWeight(e.target.value);
     }
     this.platesData = this.model.getPlates();
-    this.renderRows(this.platesData);
+    this.renderRows();
+    this.renderPlates();
   }
 
 
@@ -221,7 +227,6 @@ class View {
   }
 
   renderBarbellWeight(barbellWeight) {
-    console.log(this.barbellWeight.value);
     this.barbellWeight.placeholder = barbellWeight;
   }
 
@@ -285,16 +290,11 @@ class View {
     const barbell = document.createElement('div');
     barbell.classList.add('barbell');
     this.platesGraphicSection.appendChild(barbell);
-    console.log(platesData);
     let totalPlates = 0;
     platesData.forEach((plate, index) => {
       for (let i = 0; i < plate['perSide']; i++) {
-        console.log(index);
         const plateToAdd = document.createElement('div');
         plateToAdd.classList.add('plate');
-        // offsets each plate of the same weight
-        // how to offset amt of plates?
-        // add color + size to plate model? 
         plateToAdd.style.left = (this.windowWidth / 2.25) + (totalPlates * 18) + "px";
         // small plates too small
         plateToAdd.style.height = Math.sqrt(plate['weight']) * 25 + 10 + "px";

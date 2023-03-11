@@ -78,7 +78,7 @@ button:active {
 }
 
 .barbell {
-  transform: translateX(-15%);
+  transform: translateX(-10%);
   height: 7.5%;
   width: 100%;
   background-color: var(--medium-color);
@@ -86,24 +86,7 @@ button:active {
 
 .plate {
   z-index: 1;
-  border-style: solid;
   position: absolute;
-  border-width: 3px;
-  border-color: black;
-  /* height: 150px; */
   width: 15px;
   background-color: black;
 }
-
-/* .plate2 {
-  z-index: 1;
-  border-style: solid;
-  position: absolute;
-  Offset plate by 40% + plate-width + border-width
-  left: calc(40% + 18px);
-  border-width: 3px;
-  border-color: black;
-  height: 150px;
-  width: 15px;
-  background-color: red;
-} */
