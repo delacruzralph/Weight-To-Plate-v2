@@ -294,7 +294,7 @@ class View {
     barbell.classList.add('barbell');
     this.platesGraphicSection.appendChild(barbell);
     let totalPlates = 0;
-    platesData.forEach((plate, index) => {
+    platesData.forEach(plate => {
       for (let i = 0; i < plate['perSide']; i++) {
         const plateToAdd = document.createElement('div');
         plateToAdd.classList.add('plate');
