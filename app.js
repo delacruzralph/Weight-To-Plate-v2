@@ -44,6 +44,7 @@ class Model {
 
   setDefaultBarbellWeight() {
     this.barbellWeight = this.weights[0];
+    console.log(this.barbellWeight);
     this.plates = this.generatePlates(this.weights);
     this.calculatePlates();
   }
@@ -198,19 +199,18 @@ class Controller {
   }
 
   handleBarbellInput(e) {
-    if (e.target.value > 0) {
-      if (e.target.value == "") {
-        this.model.setDefaultBarbellWeight();
-        this.model.getPlates();
 
-      }
-      else {
-        this.model.setBarbellWeight(e.target.value);
-      }
-      this.platesData = this.model.getPlates();
-      this.renderRows();
-      this.renderPlates();
+    console.log(e.target.value);
+    if (e.target.value >= 0) {
+      this.model.setBarbellWeight(e.target.value);
     }
+    else if (e.target.value == "" || e.target.value < 0) {
+      this.model.setDefaultBarbellWeight();
+      this.model.getPlates();
+    }
+    this.platesData = this.model.getPlates();
+    this.renderRows();
+    this.renderPlates();
   }
 
 
