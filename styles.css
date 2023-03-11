@@ -8,6 +8,7 @@
 body {
   background-color: var(--light-color);
   font-size: var(--font-size);
+  max-width: 36rem;
 }
 
 .form-control,

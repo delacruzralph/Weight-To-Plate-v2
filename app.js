@@ -198,17 +198,19 @@ class Controller {
   }
 
   handleBarbellInput(e) {
-    if (e.target.value == "") {
-      this.model.setDefaultBarbellWeight();
-      this.model.getPlates();
+    if (e.target.value > 0) {
+      if (e.target.value == "") {
+        this.model.setDefaultBarbellWeight();
+        this.model.getPlates();
 
+      }
+      else {
+        this.model.setBarbellWeight(e.target.value);
+      }
+      this.platesData = this.model.getPlates();
+      this.renderRows();
+      this.renderPlates();
     }
-    else {
-      this.model.setBarbellWeight(e.target.value);
-    }
-    this.platesData = this.model.getPlates();
-    this.renderRows();
-    this.renderPlates();
   }
 
 
