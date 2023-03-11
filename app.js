@@ -123,6 +123,10 @@ class Controller {
     this.view.renderRows(this.platesData);
   }
 
+  renderPlates() {
+    this.view.renderPlates(this.platesData.filter(plate => plate.perSide > 0));
+  }
+
   decreaseRowPerSide(index) {
     this.model.decreaseRowPerSide(index);
     this.view.renderRows(this.platesData);
@@ -207,6 +211,9 @@ class View {
     this.targetWeight = document.querySelector("#main-weight")
     this.container = document.querySelector(".plate-count-section");
     this.barbellWeight = document.querySelector("#exampleFormControlInput1");
+    this.platesGraphicSection = document.querySelector(".plates-graphic-section");
+    this.windowWidth = window.innerWidth;
+
   }
 
   renderTargetPlaceholder(unit) {
@@ -243,7 +250,7 @@ class View {
     inputColumn.classList.add('col-6');
 
     const minusButton = document.createElement('button');
-    minusButton.classList.add('btn', 'btn-outline-secondary', 'font-weight-bold','circle-btn');
+    minusButton.classList.add('btn', 'btn-outline-secondary', 'font-weight-bold', 'circle-btn');
     minusButton.textContent = '-';
     inputColumn.appendChild(minusButton);
 
@@ -253,7 +260,7 @@ class View {
     inputColumn.appendChild(valueSpan);
 
     const plusButton = document.createElement('button');
-    plusButton.classList.add('btn', 'btn-outline-secondary', 'font-weight-bold','circle-btn');
+    plusButton.classList.add('btn', 'btn-outline-secondary', 'font-weight-bold', 'circle-btn');
     plusButton.textContent = '+';
     inputColumn.appendChild(plusButton);
 
@@ -271,6 +278,32 @@ class View {
     row.appendChild(checkboxColumn);
 
     this.container.appendChild(row);
+  }
+
+  renderPlates(platesData) {
+    this.platesGraphicSection.innerHTML = "";
+    const barbell = document.createElement('div');
+    barbell.classList.add('barbell');
+    this.platesGraphicSection.appendChild(barbell);
+    console.log(platesData);
+    let totalPlates = 0;
+    platesData.forEach((plate, index) => {
+      for (let i = 0; i < plate['perSide']; i++) {
+        console.log(index);
+        const plateToAdd = document.createElement('div');
+        plateToAdd.classList.add('plate');
+        // offsets each plate of the same weight
+        // how to offset amt of plates?
+        // add color + size to plate model? 
+        plateToAdd.style.left = (this.windowWidth / 2.25) + (totalPlates * 18) + "px";
+        // small plates too small
+        plateToAdd.style.height = Math.sqrt(plate['weight']) * 25 + 10 + "px";
+        this.platesGraphicSection.appendChild(plateToAdd);
+        totalPlates += 1;
+      }
+    })
+    // this.platesGraphicSection.append(plate);
+    // console.log(this.platesGraphicSection);
   }
 }
 

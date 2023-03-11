@@ -60,7 +60,7 @@ input {
   width: 25px;
   height: 25px;
   border-radius: 25px;
-  border-width:3px;
+  border-width: 3px;
   background-color: none;
   line-height: 0px;
   /* same as the height */
@@ -69,3 +69,41 @@ input {
 button:active {
   background-color: var(--dark-color);
 }
+
+.plates-graphic-section {
+  position: relative;
+  display: flex;
+  height: 200px;
+  align-items: center;
+}
+
+.barbell {
+  transform: translateX(-15%);
+  height: 7.5%;
+  width: 100%;
+  background-color: var(--medium-color);
+}
+
+.plate {
+  z-index: 1;
+  border-style: solid;
+  position: absolute;
+  border-width: 3px;
+  border-color: black;
+  /* height: 150px; */
+  width: 15px;
+  background-color: black;
+}
+
+/* .plate2 {
+  z-index: 1;
+  border-style: solid;
+  position: absolute;
+  Offset plate by 40% + plate-width + border-width
+  left: calc(40% + 18px);
+  border-width: 3px;
+  border-color: black;
+  height: 150px;
+  width: 15px;
+  background-color: red;
+} */
