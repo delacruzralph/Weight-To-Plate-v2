@@ -356,7 +356,6 @@ document.getElementById('plate-count-section').addEventListener('click', (event)
   }
 });
 
-
 // Initialize Calculator
 const modelKg = new Model(25, 25);
 modelKg.calculatePlates();
