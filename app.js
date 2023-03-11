@@ -78,7 +78,6 @@ class Model {
   }
 
   calculatePlates() {
-    console.log(this.totalWeight);
     let remainingWeight = this.totalWeight - this.barbellWeight;
     this.plates.forEach(plate => {
       plate['perSide'] = plate['included'] == true ? Math.floor(remainingWeight / plate['weight'] / 2) : 0;
@@ -92,8 +91,10 @@ class Model {
   }
 
   decreaseRowPerSide(index) {
-    this.plates[index]['perSide'] -= 1;
-    this.calcNewTargetWeight();
+    if (this.plates[index]['perSide'] > 0) {
+      this.plates[index]['perSide'] -= 1;
+      this.calcNewTargetWeight();
+    }
   }
 
   toggleIncluded(index) {
@@ -189,9 +190,11 @@ class Controller {
   }
 
   handleMainWeightInput(e) {
-    this.model.setTotalWeight(e.target.value);
-    this.renderRows();
-    this.renderPlates();
+    if (e.target.value >= this.model.getBarbellWeight()) {
+      this.model.setTotalWeight(e.target.value);
+      this.renderRows();
+      this.renderPlates();
+    }
   }
 
   handleBarbellInput(e) {
@@ -296,14 +299,11 @@ class View {
         const plateToAdd = document.createElement('div');
         plateToAdd.classList.add('plate');
         plateToAdd.style.left = (this.windowWidth / 2.25) + (totalPlates * 18) + "px";
-        // small plates too small
         plateToAdd.style.height = Math.sqrt(plate['weight']) * 25 + 10 + "px";
         this.platesGraphicSection.appendChild(plateToAdd);
         totalPlates += 1;
       }
     })
-    // this.platesGraphicSection.append(plate);
-    // console.log(this.platesGraphicSection);
   }
 }
 
@@ -326,7 +326,6 @@ $(function () {
 
   $(document).on('click', '#more-settings-btn', function (event) {
     event.preventDefault();
-    // your code to handle the button click goes here
   });
 
   // Target Weight Load
@@ -357,20 +356,10 @@ document.getElementById('plate-count-section').addEventListener('click', (event)
   }
 });
 
-// Tests
+
+// Initialize Calculator
 const modelKg = new Model(25, 25);
-// const modelKg = new Model(25, 25, [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25]);
-// console.log(modelKg.getPlates());
-// console.log(modelKg.getBarbellWeight());
-// console.log(modelKg.getTotalWeight());
 modelKg.calculatePlates();
-
-// const modelLb = new Model(135, 45, [45, 35, 25, 10, 5, 2.5]);
-// console.log(modelLb.getPlates());
-// console.log(modelLb.getBarbellWeight());
-// console.log(modelLb.getTotalWeight());
-// modelLb.calculatePlates();
-
 const view = new View();
 const controller = new Controller(modelKg, view);
 controller.renderRows(modelKg.getPlates());
