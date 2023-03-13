@@ -1,5 +1,10 @@
 # Weight-To-Plate-v2
 This is a simple weightlifting plate calculator that allows users to calculate the weights needed on each side of a barbell based on the total weight desired.
+
+Live Website: https://delacruzralph.github.io/Weight-To-Plate-v2/
+
+Note: This is v2 of Weight To Plate. v1 can be found here: [v1 repository](https://github.com/delacruzralph/Plate-Weight-Calculator). Changelist will be included at the bottom of this README.md
+
 ## Introduction
 This project is a weight plate calculator that allows users to input a target weight they want to lift and displays the plates required to achieve that weight. Users can toggle which plates they want to include, and the calculator will update accordingly.
 
