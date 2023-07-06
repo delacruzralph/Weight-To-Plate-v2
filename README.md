@@ -3,7 +3,7 @@ This is a simple weightlifting plate calculator that allows users to calculate t
 
 Live Website: https://delacruzralph.github.io/Weight-To-Plate-v2/
 
-Note: This is v2 of Weight To Plate. v1 can be found here: [v1 repository](https://github.com/delacruzralph/Plate-Weight-Calculator). Changelist will be included at the bottom of this README.md
+Note: This is v2 of Weight To Plate. v1 can be found here: [v1 repository](https://github.com/delacruzralph/Plate-Weight-Calculator). 
 
 ## Technologies Used
 
