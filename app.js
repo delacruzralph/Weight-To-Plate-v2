@@ -172,7 +172,7 @@ class Controller {
     // Switched to kg
     else if (unitSelected == "kg") {
       const lbToKg = 0.45359237;
-      barbellWeight = 25;
+      barbellWeight = 20;
       convertedWeight = this.model.getTotalWeight() * lbToKg;
       weightsSelected = [25, 20, 15, 10, 5, 2.5, 1.25, 0.5, 0.25];
     }
